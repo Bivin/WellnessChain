@@ -3,7 +3,7 @@ extends layout
 block content
   h1= title
   h2= data
-  form(action="/", method="POST")
+  form(id="usersform" action="/saveuser", method="POST")
     label(for="Username") Username:
     input(type="text", name="username")
     br 
