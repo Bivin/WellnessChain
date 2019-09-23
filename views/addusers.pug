@@ -4,13 +4,22 @@ block content
   h1= title
   h2= data
   form(id="usersform" action="/saveuser", method="POST")
+    label(for="Firstname") Firstname:
+    input(type="text", name="firstname")
+    br
+    label(for="Lastname") Lastname:
+    input(type="text", name="lastname")
+    br 
     label(for="Username") Username:
     input(type="text", name="username")
     br 
+    label(for="email") Email:
+    input(type="email", name="email")
+    br
     label(for="password") Password:
     input(type="password", name="password")
     br
-    label(for="email") Email:
-    input(type="email", name="email")
+    label(for="usertype") User Type:
+    input(type="text", name="usertype")
     br
     button(type="submit") Submit

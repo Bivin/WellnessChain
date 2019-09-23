@@ -3,6 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var mysql = require('mysql');
+var moment = require('moment');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -25,12 +27,11 @@ app.use('/', indexRouter);
 app.use('/addusers', addusersRouter);
 app.use('/users', usersRouter);
 
-var mysql = require('mysql')
 var connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'password',
-  database: 'test'
+  password: 'calpine',
+  database: 'wellness_frontend'
 });
 
 connection.connect(function(err) {
@@ -43,7 +44,15 @@ connection.connect(function(err) {
 
 app.post('/saveuser', urlencodedParser, function(req,res){
   console.log(req.body);
-  var sql = "insert into users values(null, '"+req.body.username+"','"+req.body.password+"','"+req.body.email+"')";
+  var curr_time = moment().utc().format('YYYY-MM-DD HH:mm:ss');
+  console.log(curr_time); // 2015-09-13 03:39:27
+
+var stillUtc = moment.utc(curr_time).toDate();
+var local = moment(stillUtc).local().format('YYYY-MM-DD HH:mm:ss');
+
+console.log(local); // 2015-09-13 09:39:27
+ 
+  var sql = "insert into users values(null, '"+req.body.firstname+"','"+req.body.lastname+"','"+req.body.username+"','"+req.body.email+"','"+req.body.password+"','"+req.body.usertype+"','"+local+"')";
   connection.query(sql, function(err){
     if (err) throw err
     res.render('user-success',{ dataval: () => req.body.username });
